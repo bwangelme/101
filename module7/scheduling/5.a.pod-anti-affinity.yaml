@@ -14,6 +14,7 @@ spec:
     spec:
       affinity:
         podAffinity:
+          # pod 选择节点的时候，该节点上必须有个 a=b label 的 pod
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
@@ -23,6 +24,7 @@ spec:
                     - b
             topologyKey: kubernetes.io/hostname
         podAntiAffinity:
+          # 如果节点有 pod 带了 app=anti-nginx 的 label 的话，就不能调度上去
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
