@@ -15,5 +15,9 @@ spec:
       containers:
         - name: nginx
           image: nginx
+      # 0/3 nodes are available: 3 node(s) didn't match Pod's node affinity/selector.
+      # 所有 node 都没有设置这个 selector 的话，pod 会处于 pending 状态无法调度
+      # k label nodes demo-worker disktype=ssd
+      # 给 demo-worker 加上 label 之后，调度就成功了
       nodeSelector:
         disktype: ssd
