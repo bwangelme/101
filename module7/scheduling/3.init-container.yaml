@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -12,10 +13,18 @@ spec:
       labels:
         app: nginx
     spec:
+      # 这里启动了两个 init 容器，通过日志我们可以看到，两个容器是按顺序启动的, 第一个执行完才会执行第二个，不是一起启动的
+      # The app is running 1!
+      # Mon Jan  8 01:48:57 UTC 2024
+      # The app is running 2!
+      # Mon Jan  8 01:49:01 UTC 2024
       initContainers:
-        - name: init-myservice
+        - name: init-myservice1
           image: busybox:1.28
-          command: ['sh', '-c', 'echo The app is running! && sleep 10']
+          command: ['sh', '-c', 'echo The app is running 1! && date && sleep 3']
+        - name: init-myservice2
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo The app is running 2! && date && sleep 3']
       containers:
         - name: nginx
           image: nginx

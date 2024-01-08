@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -12,13 +13,14 @@ spec:
       labels:
         app: nginx
     spec:
+      # 将 request cpu 设置成100，可以看到创建的 pod 无法调度 insufficient cpu
       containers:
         - name: nginx
           image: nginx
           resources:
             limits:
               memory: 1Gi
-              cpu: 1
+              cpu: "100"
             requests:
               memory: 256Mi
-              cpu: 100m
+              cpu: "100"
