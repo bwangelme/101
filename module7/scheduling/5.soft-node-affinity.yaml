@@ -14,6 +14,7 @@ spec:
     spec:
       affinity:
         nodeAffinity:
+          # 弱亲和性，有节点满足要求更好，没有满足要求的节点也可以用
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
             preference:
